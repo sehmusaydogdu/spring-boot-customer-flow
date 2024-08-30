@@ -37,4 +37,13 @@ class CustomerControllerTest {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(newUrl)).andReturn();
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
     }
+
+    @Test
+    @DisplayName("Customer delete by customerId ")
+    void givenCustomerId_whenDeleteById_thenReturnSuccess() throws Exception {
+        final String url = "/api/customer/delete/%s";
+        final String newUrl = String.format(url, "1");
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.delete(newUrl)).andReturn();
+        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+    }
 }

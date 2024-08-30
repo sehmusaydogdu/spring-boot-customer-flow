@@ -9,4 +9,6 @@ public interface ICustomerService {
     List<CustomerResponse> getAllCustomers();
 
     List<CustomerResponse> findByCustomerName(String name);
+
+    void deleteByCustomerId(Long id);
 }

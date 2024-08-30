@@ -3,10 +3,8 @@ package com.ms.customerflow.controller;
 import com.ms.customerflow.controller.response.CustomerResponse;
 import com.ms.customerflow.service.ICustomerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,12 +16,17 @@ public class CustomerController {
     private final ICustomerService customerService;
 
     @GetMapping("/retrieve")
-    public List<CustomerResponse> retrieveCustomers(){
-        return customerService.getAllCustomers();
+    public ResponseEntity<List<CustomerResponse>> retrieveCustomers(){
+        return ResponseEntity.ok(customerService.getAllCustomers());
     }
 
     @GetMapping("/search/{customerName}")
-    public List<CustomerResponse> retrieveCustomers(@PathVariable("customerName") String customerName){
-        return customerService.findByCustomerName(customerName);
+    public ResponseEntity<List<CustomerResponse>> retrieveCustomers(@PathVariable("customerName") String customerName){
+        return ResponseEntity.ok(customerService.findByCustomerName(customerName));
+    }
+
+    @DeleteMapping("/delete/{customerId}")
+    public void deleteByCustomerId(@PathVariable("customerId") Long customerId) {
+        customerService.deleteByCustomerId(customerId);
     }
 }

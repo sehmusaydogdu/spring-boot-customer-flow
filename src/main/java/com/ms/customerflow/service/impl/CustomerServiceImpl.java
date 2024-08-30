@@ -7,6 +7,7 @@ import com.ms.customerflow.service.ICustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,5 +33,11 @@ public class CustomerServiceImpl implements ICustomerService {
         List<CustomerResponse> customerResponseList = new ArrayList<>();
         dbSearchResult.forEach(item-> customerResponseList.add(new CustomerResponse(item.getCustomerId(), item.getName(), item.getLastname(), item.getBirthday())));
         return customerResponseList;
+    }
+
+    @Override
+    public void deleteByCustomerId(Long id) {
+        int effectedRecord = customerRepository.deleteByCustomerId(id);
+        Assert.isTrue(effectedRecord > 0, "data not found");
     }
 }

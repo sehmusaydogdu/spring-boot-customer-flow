@@ -4,6 +4,7 @@ import com.ms.customerflow.controller.response.CustomerResponse;
 import com.ms.customerflow.model.Customer;
 import com.ms.customerflow.repository.ICustomerRepository;
 import com.ms.customerflow.service.ICustomerService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceImplTest {
@@ -61,5 +62,20 @@ class CustomerServiceImplTest {
 
         Mockito.when(customerRepository.findByNameContainingIgnoreCase("John")).thenReturn(customers);
         assertEquals(0, customerService.findByCustomerName("John").size());
+    }
+
+    @Test
+    void givenCustomerId_whenDeleteById_thenSuccess() {
+        Long customerId = 1L;
+        Mockito.when(customerRepository.deleteByCustomerId(customerId)).thenReturn(1);
+        customerService.deleteByCustomerId(customerId);
+        verify(customerRepository, times(1)).deleteByCustomerId(customerId);
+    }
+
+    @Test
+    void givenCustomerId_whenDeleteById_thenFailed() {
+        Long customerId = 1L;
+        Assertions.assertThrows(IllegalArgumentException.class, ()->customerService.deleteByCustomerId(customerId));
+        verify(customerRepository, times(1)).deleteByCustomerId(customerId);
     }
 }
