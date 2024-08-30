@@ -7,4 +7,6 @@ import java.util.List;
 public interface ICustomerService {
 
     List<CustomerResponse> getAllCustomers();
+
+    List<CustomerResponse> findByCustomerName(String name);
 }

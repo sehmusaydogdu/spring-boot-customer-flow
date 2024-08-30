@@ -28,4 +28,13 @@ class CustomerControllerTest {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url)).andReturn();
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
     }
+
+    @Test
+    @DisplayName("Customer search by name")
+    void givenCustomerName_whenSearchName_thenReturnCustomers() throws Exception {
+        final String url = "/api/customer/search/%s";
+        final String newUrl = String.format(url, "Alice");
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(newUrl)).andReturn();
+        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+    }
 }

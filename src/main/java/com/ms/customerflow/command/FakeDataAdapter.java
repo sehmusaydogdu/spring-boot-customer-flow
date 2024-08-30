@@ -22,7 +22,12 @@ public class FakeDataAdapter implements ApplicationRunner {
         customer.setName("Alice");
         customer.setLastname("Fallen");
         customer.setBirthday(LocalDate.now());
-        Customer newCustomer = customerRepository.save(customer);
-        log.info("{}",newCustomer);
+        log.info("{}",customerRepository.save(customer));
+
+        customer = new Customer();
+        customer.setName("Alex");
+        customer.setLastname("Max");
+        customer.setBirthday(LocalDate.now());
+        log.info("{}",customerRepository.save(customer));
     }
 }

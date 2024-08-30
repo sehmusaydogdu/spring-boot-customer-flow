@@ -24,4 +24,13 @@ public class CustomerServiceImpl implements ICustomerService {
         dbCustomerList.forEach(item-> customerResponseList.add(new CustomerResponse(item.getCustomerId(), item.getName(), item.getLastname(), item.getBirthday())));
         return customerResponseList;
     }
+
+    @Override
+    public List<CustomerResponse> findByCustomerName(String name) {
+        List<Customer> dbCustomerList = customerRepository.findByNameContainingIgnoreCase(name);
+        List<Customer> dbSearchResult = dbCustomerList.stream().filter(item -> item.getName().contains(name)).toList();
+        List<CustomerResponse> customerResponseList = new ArrayList<>();
+        dbSearchResult.forEach(item-> customerResponseList.add(new CustomerResponse(item.getCustomerId(), item.getName(), item.getLastname(), item.getBirthday())));
+        return customerResponseList;
+    }
 }
