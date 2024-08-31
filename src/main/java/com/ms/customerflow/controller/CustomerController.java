@@ -1,6 +1,7 @@
 package com.ms.customerflow.controller;
 
 import com.ms.customerflow.controller.request.CreateCustomerRequest;
+import com.ms.customerflow.controller.request.UpdateCustomerRequest;
 import com.ms.customerflow.controller.response.CustomerResponse;
 import com.ms.customerflow.service.ICustomerService;
 import jakarta.validation.Valid;
@@ -28,12 +29,17 @@ public class CustomerController {
     }
 
     @DeleteMapping("/delete/{customerId}")
-    public void deleteByCustomerId(@PathVariable("customerId") Long customerId) {
+    public void deleteCustomerById(@PathVariable("customerId") Long customerId) {
         customerService.deleteByCustomerId(customerId);
     }
 
     @PostMapping("/insert")
-    public void deleteByCustomerId(@Valid @RequestBody CreateCustomerRequest customerRequest) {
+    public void insertCustomer(@Valid @RequestBody CreateCustomerRequest customerRequest) {
         customerService.insert(customerRequest);
+    }
+
+    @PutMapping("/update/{customerId}")
+    public void updateCustomer(@PathVariable("customerId") Long customerId, @Valid @RequestBody UpdateCustomerRequest customerRequest) {
+        customerService.update(customerId, customerRequest);
     }
 }

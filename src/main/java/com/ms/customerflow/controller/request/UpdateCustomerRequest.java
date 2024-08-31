@@ -9,7 +9,10 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class CreateCustomerRequest {
+public class UpdateCustomerRequest {
+
+    @NotNull(message = "Customer id must not be null")
+    private Long customerId;
 
     @NotBlank(message = "Customer name must not be empty")
     @NotNull(message = "Customer name must not be null")

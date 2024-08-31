@@ -1,6 +1,7 @@
 package com.ms.customerflow.service;
 
 import com.ms.customerflow.controller.request.CreateCustomerRequest;
+import com.ms.customerflow.controller.request.UpdateCustomerRequest;
 import com.ms.customerflow.controller.response.CustomerResponse;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface ICustomerService {
     void deleteByCustomerId(Long id);
 
     void insert(CreateCustomerRequest customerRequest);
+
+    void update(Long customerId, UpdateCustomerRequest customerRequest);
 }

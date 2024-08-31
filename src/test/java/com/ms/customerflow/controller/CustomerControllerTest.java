@@ -2,6 +2,7 @@ package com.ms.customerflow.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ms.customerflow.controller.request.CreateCustomerRequest;
+import com.ms.customerflow.controller.request.UpdateCustomerRequest;
 import com.ms.customerflow.service.ICustomerService;
 
 import org.junit.jupiter.api.DisplayName;
@@ -89,6 +90,67 @@ class CustomerControllerTest {
         request.setBirthday(LocalDate.now());
         final String url = "/api/customer/insert";
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))).andReturn();
+        assertEquals(HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus());
+    }
+
+    @Test
+    @DisplayName("Customer update data")
+    void givenUpdateCustomerRequest_whenUpdateData_thenReturnSuccess() throws Exception {
+        UpdateCustomerRequest request = new UpdateCustomerRequest();
+        request.setCustomerId(1L);
+        request.setName("Emma");
+        request.setLastname("Attorney");
+        request.setBirthday(LocalDate.now());
+        final String url = "/api/customer/update/%s";
+        final String newUrl = String.format(url, "1");
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(newUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))).andReturn();
+        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+    }
+
+    @Test
+    @DisplayName("Customer update data with customer id is null")
+    void givenUpdateCustomerRequest_withIdNull_whenUpdateData_thenReturnFailed() throws Exception {
+        UpdateCustomerRequest request = new UpdateCustomerRequest();
+        request.setName("Emma");
+        request.setLastname("Attorney");
+        request.setBirthday(LocalDate.now());
+        final String url = "/api/customer/update/%s";
+        final String newUrl = String.format(url, "1");
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(newUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))).andReturn();
+        assertEquals(HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus());
+    }
+
+    @Test
+    @DisplayName("Customer update data with customer name is null")
+    void givenUpdateCustomerRequest_withNameNull_whenUpdateData_thenReturnFailed() throws Exception {
+        UpdateCustomerRequest request = new UpdateCustomerRequest();
+        request.setCustomerId(1L);
+        request.setLastname("Attorney");
+        request.setBirthday(LocalDate.now());
+        final String url = "/api/customer/update/%s";
+        final String newUrl = String.format(url, "1");
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(newUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))).andReturn();
+        assertEquals(HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus());
+    }
+
+    @Test
+    @DisplayName("Customer update data with customer lastname is null")
+    void givenUpdateCustomerRequest_withLastNameNull_whenUpdateData_thenReturnFailed() throws Exception {
+        UpdateCustomerRequest request = new UpdateCustomerRequest();
+        request.setCustomerId(1L);
+        request.setName("Emma");
+        request.setBirthday(LocalDate.now());
+        final String url = "/api/customer/update/%s";
+        final String newUrl = String.format(url, "1");
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(newUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))).andReturn();
         assertEquals(HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus());
