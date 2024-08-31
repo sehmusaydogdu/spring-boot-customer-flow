@@ -1,5 +1,6 @@
 package com.ms.customerflow.service.impl;
 
+import com.ms.customerflow.controller.request.CreateCustomerRequest;
 import com.ms.customerflow.controller.response.CustomerResponse;
 import com.ms.customerflow.model.Customer;
 import com.ms.customerflow.repository.ICustomerRepository;
@@ -77,5 +78,41 @@ class CustomerServiceImplTest {
         Long customerId = 1L;
         Assertions.assertThrows(IllegalArgumentException.class, ()->customerService.deleteByCustomerId(customerId));
         verify(customerRepository, times(1)).deleteByCustomerId(customerId);
+    }
+
+    @Test
+    void givenCustomerRequest_whenInsertData_thenSuccess() {
+        CreateCustomerRequest request = new CreateCustomerRequest();
+        request.setName("Emma");
+        request.setLastname("Attorney");
+        request.setBirthday(LocalDate.now());
+
+        Customer customer = new Customer();
+        customer.setCustomerId(1L);
+        customer.setName("Emma");
+        customer.setLastname("Attorney");
+        request.setBirthday(request.getBirthday());
+
+        Mockito.when(customerRepository.save(Mockito.any())).thenReturn(customer);
+        customerService.insert(request);
+        verify(customerRepository, times(1)).save(Mockito.any());
+    }
+
+    @Test
+    void givenCustomerRequest_withNameNull_whenInsertData_thenFailed() {
+        CreateCustomerRequest request = new CreateCustomerRequest();
+        request.setLastname("Attorney");
+        request.setBirthday(LocalDate.now());
+        Assertions.assertThrows(IllegalArgumentException.class, () -> customerService.insert(request));
+        verify(customerRepository, times(1)).save(Mockito.any());
+    }
+
+    @Test
+    void givenCustomerRequest_withLastNameNull_whenInsertData_thenFailed() {
+        CreateCustomerRequest request = new CreateCustomerRequest();
+        request.setName("Emma");
+        request.setBirthday(LocalDate.now());
+        Assertions.assertThrows(IllegalArgumentException.class, () -> customerService.insert(request));
+        verify(customerRepository, times(1)).save(Mockito.any());
     }
 }

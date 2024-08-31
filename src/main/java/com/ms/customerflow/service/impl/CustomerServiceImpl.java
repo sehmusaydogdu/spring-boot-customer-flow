@@ -1,5 +1,6 @@
 package com.ms.customerflow.service.impl;
 
+import com.ms.customerflow.controller.request.CreateCustomerRequest;
 import com.ms.customerflow.controller.response.CustomerResponse;
 import com.ms.customerflow.model.Customer;
 import com.ms.customerflow.repository.ICustomerRepository;
@@ -38,6 +39,16 @@ public class CustomerServiceImpl implements ICustomerService {
     @Override
     public void deleteByCustomerId(Long id) {
         int effectedRecord = customerRepository.deleteByCustomerId(id);
-        Assert.isTrue(effectedRecord > 0, "data not found");
+        Assert.isTrue(effectedRecord > 0, "No records found to delete.");
+    }
+
+    @Override
+    public void insert(CreateCustomerRequest customerRequest) {
+        Customer customer = new Customer();
+        customer.setName(customerRequest.getName());
+        customer.setLastname(customerRequest.getLastname());
+        customer.setBirthday(customerRequest.getBirthday());
+        Customer saved = customerRepository.save(customer);
+        Assert.notNull(saved, "An error occurred while adding a record");
     }
 }

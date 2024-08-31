@@ -1,7 +1,9 @@
 package com.ms.customerflow.controller;
 
+import com.ms.customerflow.controller.request.CreateCustomerRequest;
 import com.ms.customerflow.controller.response.CustomerResponse;
 import com.ms.customerflow.service.ICustomerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,5 +30,10 @@ public class CustomerController {
     @DeleteMapping("/delete/{customerId}")
     public void deleteByCustomerId(@PathVariable("customerId") Long customerId) {
         customerService.deleteByCustomerId(customerId);
+    }
+
+    @PostMapping("/insert")
+    public void deleteByCustomerId(@Valid @RequestBody CreateCustomerRequest customerRequest) {
+        customerService.insert(customerRequest);
     }
 }
